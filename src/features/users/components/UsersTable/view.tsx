@@ -15,6 +15,7 @@ import { useUsersFilter } from "../../hooks/useUsersFilter";
 import { UserActionsMenu } from "../UserActionsMenu/view";
 import { useDropdownActions } from "../../hooks/useDropdownActions";
 import { useState } from "react";
+import { CreateUser } from "../CreateUser";
 
 export const UsersTable = ({ users }: { users: UserType[] }) => {
   const [currentUsers, setCurrentUsers] = useState<UserType[]>(users);
@@ -37,7 +38,7 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
     useDropdownActions();
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <UserSearchFilter
         users={currentUsers}
         selectedCity={selectedCity}
@@ -49,6 +50,11 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
         handleChangeCompany={handleChangeCompany}
         handleSearchValueChange={handleSearchValueChange}
         clearSelectedCity={clearSelectedCity}
+        clearAllFilters={clearAllFilters}
+      />
+      <CreateUser
+        lastUserId={currentUsers[currentUsers.length - 1].id}
+        setCurrentUsers={setCurrentUsers}
       />
       <TableContainer>
         <Table aria-label="users table">

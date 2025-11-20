@@ -1,26 +1,21 @@
-"use client";
-
-import { ModalWrapper } from "src/components/ModalWrapper";
-import { useEffect } from "react";
-import { TextField as Input } from "@mui/material";
+import { ModalWrapper } from "@/src/components/ModalWrapper";
+import { createUser } from "src/utils/UsersUtil";
+import { CreateUserModalProps } from "./types";
 import { useForm } from "react-hook-form";
+import { FormValues } from "../../types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editUser } from "src/utils/UsersUtil";
-import { FormValues } from "./types";
-import { userSchema } from "../../schemas/userSchema";
-import { UserModalProps } from "../../types";
+import { userSchema } from "src/features/users/schemas/userSchema";
+import { TextField as Input } from "@mui/material";
 
-export const EditUserModal = ({
+export const CreateUserModal = ({
   isOpen,
   setIsOpen,
-  row,
-  setSelectedRow,
   setCurrentUsers,
-}: UserModalProps) => {
+  lastUserId,
+}: CreateUserModalProps) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(userSchema),
@@ -32,34 +27,14 @@ export const EditUserModal = ({
       address: { city: "" },
     },
   });
-
-  useEffect(() => {
-    if (row) {
-      reset({
-        name: row.name,
-        email: row.email,
-        phone: row.phone,
-        company: {
-          name: row.company.name,
-        },
-        address: {
-          city: row.address.city,
-        },
-      });
-    }
-  }, [row, reset]);
-
   const handleCloseModal = () => {
     setIsOpen(false);
-    setSelectedRow(null);
   };
 
   const handleSave = handleSubmit(async (data) => {
-    if (row) {
-      const users = await editUser({ ...data, id: row.id });
-      setCurrentUsers(users);
-      setIsOpen(false);
-    }
+    const users = await createUser({ id: lastUserId + 1, ...data });
+    setCurrentUsers(users);
+    setIsOpen(false);
   });
 
   const fields = [
@@ -72,8 +47,8 @@ export const EditUserModal = ({
 
   return (
     <ModalWrapper
-      title="Edit User"
-      actionBtnTitle="Save"
+      title="Create User"
+      actionBtnTitle="Create"
       open={isOpen}
       onClose={handleCloseModal}
       onSave={handleSave}

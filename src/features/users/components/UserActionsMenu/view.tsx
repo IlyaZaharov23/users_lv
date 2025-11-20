@@ -3,8 +3,8 @@
 import { DropdownWrapper } from "@/src/components/DropdownWrapper/view";
 import { UserActionsMenuProps } from "./types";
 import { useState } from "react";
-import { EditUserModal } from "../EditUserModal";
-import { DeleteUserModal } from "../DeleteUserModal";
+import { EditUserModal } from "../modals/components/EditUserModal";
+import { DeleteUserModal } from "../modals/components/DeleteUserModal";
 
 export const UserActionsMenu = ({
   open,

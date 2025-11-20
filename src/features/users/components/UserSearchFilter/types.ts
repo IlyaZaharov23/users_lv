@@ -5,6 +5,7 @@ import { UserCompanySelectorProps } from "./components/UserCompanySelector/types
 
 export type UserSearchFilterProps = {
   users: UserType[];
+  clearAllFilters: () => void;
 } & Omit<UserCitySelectorProps, "cities"> &
   Omit<UserCompanySelectorProps, "companies"> &
   SearchBySelectorProps;
