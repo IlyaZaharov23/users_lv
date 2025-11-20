@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
 import { useState } from "react";
+import { Button } from "@mui/material";
 import { CreateUserModal } from "../modals/components/CreateUserModal";
 import { CreateUserProps } from "./types";
 

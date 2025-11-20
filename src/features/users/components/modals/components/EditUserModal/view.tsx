@@ -16,6 +16,7 @@ export const EditUserModal = ({
   row,
   setSelectedRow,
   setCurrentUsers,
+  clearAllFilters,
 }: UserModalProps) => {
   const {
     register,
@@ -59,6 +60,7 @@ export const EditUserModal = ({
       const users = await editUser({ ...data, id: row.id });
       setCurrentUsers(users);
       setIsOpen(false);
+      clearAllFilters();
     }
   });
 

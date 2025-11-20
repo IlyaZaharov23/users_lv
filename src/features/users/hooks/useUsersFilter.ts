@@ -3,6 +3,7 @@ import { SelectChangeEvent } from "@mui/material";
 import { SEARCH_FILTERS } from "../constants/searchFilters";
 import { SearchFiltersType } from "../components/UsersTable/types";
 import { UserType } from "../types";
+import { useDebounce } from "./useDebounce";
 
 export const useUsersFilter = () => {
   const [selectedCity, setSelectedCity] = useState<string | undefined>(
@@ -15,9 +16,14 @@ export const useUsersFilter = () => {
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>(
     undefined
   );
+  const debouncedValue = useDebounce(searchValue, 500);
 
   const handleSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+  };
+
+  const clearSearchField = () => {
+    setSearchValue("");
   };
 
   const handleChangeFilter = (e: SelectChangeEvent<SearchFiltersType>) => {
@@ -44,8 +50,8 @@ export const useUsersFilter = () => {
         : true;
 
       let matchesSearch = true;
-      if (searchValue) {
-        const value = searchValue.toLowerCase();
+      if (debouncedValue) {
+        const value = debouncedValue.toLowerCase();
         if (selectedFilter === SEARCH_FILTERS.NAME) {
           matchesSearch = user.name.toLowerCase().includes(value);
         } else if (selectedFilter === SEARCH_FILTERS.EMAIL) {
@@ -80,5 +86,6 @@ export const useUsersFilter = () => {
     getFilteredUsers,
     clearSelectedCity,
     clearAllFilters,
+    clearSearchField,
   };
 };

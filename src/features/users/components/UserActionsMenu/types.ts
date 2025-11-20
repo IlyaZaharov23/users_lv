@@ -7,4 +7,5 @@ export type UserActionsMenuProps = {
   selectedRow: UserType | null;
   setSelectedRow: (row: UserType | null) => void;
   setCurrentUsers: (users: UserType[]) => void;
+  clearAllFilters: () => void;
 };

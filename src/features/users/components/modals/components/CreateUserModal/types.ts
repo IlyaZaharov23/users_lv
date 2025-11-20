@@ -2,7 +2,7 @@ import { UserModalProps } from "../../types";
 
 export type CreateUserModalProps = Omit<
   UserModalProps,
-  "row" | "setSelectedRow"
+  "row" | "setSelectedRow" | "clearAllFilters"
 > & {
   lastUserId: number;
 };
