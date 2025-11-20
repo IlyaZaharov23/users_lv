@@ -1,61 +1,46 @@
+"use server";
+
 import fspromise from "fs/promises";
 import path from "path";
 import { UserType } from "../features/users/types";
-export class UsersUtil {
-  private static pathToUsers() {
-    return path.join(process.cwd(), "users.json");
+
+const filePath = path.join(process.cwd(), "users.json");
+
+export async function getUsers(): Promise<UserType[]> {
+  try {
+    const data = await fspromise.readFile(filePath, "utf8");
+    return JSON.parse(data);
+  } catch {
+    return [];
   }
-  static async getUsers() {
-    try {
-      const users = await fspromise.readFile(this.pathToUsers(), "utf-8");
-      return users.length ? JSON.parse(users) : [];
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
+}
+
+export async function getUserById(id: number) {
+  const users = await getUsers();
+  return users.find((user) => user.id === id);
+}
+
+export async function createUser(data: UserType) {
+  const users = await getUsers();
+  users.push(data);
+  await fspromise.writeFile(filePath, JSON.stringify(users));
+}
+
+export async function editUser(data: UserType) {
+  const users = await getUsers();
+  const index = users.findIndex((user) => user.id === data.id);
+
+  if (index !== -1) {
+    users[index] = data;
+    await fspromise.writeFile(filePath, JSON.stringify(users));
   }
 
-  private static async updateUsers(newUsers: UserType[]) {
-    try {
-      await fspromise.writeFile(this.pathToUsers(), JSON.stringify(newUsers));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  return users;
+}
 
-  static async createUser(data: UserType) {
-    try {
-      const users: UserType[] = await this.getUsers();
-      users.push(data);
-      await this.updateUsers(users);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  static async editUser(data: UserType) {
-    try {
-      const users: UserType[] = await this.getUsers();
-      const currentUserIndex = users.findIndex((user) => user.id === data.id);
-      if (currentUserIndex !== -1) {
-        users[currentUserIndex] = data;
-        await this.updateUsers(users);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  static async deleteUser(data: UserType) {
-    try {
-      const users: UserType[] = await this.getUsers();
-      const currentUserIndex = users.findIndex((user) => user.id === data.id);
-      if (currentUserIndex !== -1) {
-        users.splice(currentUserIndex, 1);
-        await this.updateUsers(users);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+export async function deleteUser(id: number) {
+  const users = await getUsers();
+  const filtered = users.filter((user) => user.id !== id);
+  await fspromise.writeFile(filePath, JSON.stringify(filtered));
+  return filtered;
 }

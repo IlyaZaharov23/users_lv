@@ -1,10 +1,10 @@
 "use client";
 
 import { TableCell, TableRow } from "@mui/material";
-import { UserType } from "../../types";
 import { MoreVert } from "@mui/icons-material";
+import { UserTableRowProps } from "./types";
 
-export const UserRow = ({ user }: { user: UserType }) => {
+export const UserRow = ({ user, openMenu }: UserTableRowProps) => {
   return (
     <TableRow>
       <TableCell component="th" scope="row">
@@ -14,7 +14,7 @@ export const UserRow = ({ user }: { user: UserType }) => {
       <TableCell align="right">{user.phone}</TableCell>
       <TableCell align="right">{user.company.name}</TableCell>
       <TableCell align="right">{user.address.city}</TableCell>
-      <TableCell align="right">
+      <TableCell align="right" onClick={(e) => openMenu(e, user)}>
         <MoreVert />
       </TableCell>
     </TableRow>
