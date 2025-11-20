@@ -1,11 +1,11 @@
-import { ModalWrapper } from "@/src/components/ModalWrapper";
-import { createUser } from "src/utils/UsersUtil";
-import { CreateUserModalProps } from "./types";
-import { useForm } from "react-hook-form";
-import { FormValues } from "../../types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema } from "src/features/users/schemas/userSchema";
 import { TextField as Input } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ModalWrapper } from "src/components/ModalWrapper";
+import { createUser } from "src/utils/UsersUtil";
+import { userSchema } from "src/features/users/schemas/userSchema";
+import { FormValues } from "../../types";
+import { CreateUserModalProps } from "./types";
 
 export const CreateUserModal = ({
   isOpen,

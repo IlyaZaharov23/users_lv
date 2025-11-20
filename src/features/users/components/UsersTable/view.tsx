@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -12,9 +13,8 @@ import { UserRow } from "../UserTableRow";
 import { UserTableHead } from "../UserTableHead";
 import { UserSearchFilter } from "../UserSearchFilter";
 import { useUsersFilter } from "../../hooks/useUsersFilter";
-import { UserActionsMenu } from "../UserActionsMenu/view";
+import { UserActionsMenu } from "../UserActionsMenu";
 import { useDropdownActions } from "../../hooks/useDropdownActions";
-import { useState } from "react";
 import { CreateUser } from "../CreateUser";
 
 export const UsersTable = ({ users }: { users: UserType[] }) => {
@@ -32,6 +32,7 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
     getFilteredUsers,
     clearSelectedCity,
     clearAllFilters,
+    clearSearchField,
   } = useUsersFilter();
 
   const { rowMenu, isOpen, openMenu, closeMenu, selectedRow, setSelectedRow } =
@@ -50,6 +51,7 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
         handleChangeCompany={handleChangeCompany}
         handleSearchValueChange={handleSearchValueChange}
         clearSelectedCity={clearSelectedCity}
+        clearSearchField={clearSearchField}
         clearAllFilters={clearAllFilters}
       />
       <CreateUser
@@ -75,6 +77,7 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
         setCurrentUsers={setCurrentUsers}
+        clearAllFilters={clearAllFilters}
       />
     </Box>
   );

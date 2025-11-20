@@ -1,9 +1,9 @@
 "use client";
 
-import { ModalWrapper } from "src/components/ModalWrapper";
-import { UserModalProps } from "../../types";
 import { Typography } from "@mui/material";
 import { deleteUser } from "src/utils/UsersUtil";
+import { ModalWrapper } from "src/components/ModalWrapper";
+import { UserModalProps } from "../../types";
 
 export const DeleteUserModal = ({
   isOpen,
@@ -11,6 +11,7 @@ export const DeleteUserModal = ({
   row,
   setSelectedRow,
   setCurrentUsers,
+  clearAllFilters,
 }: UserModalProps) => {
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -22,6 +23,7 @@ export const DeleteUserModal = ({
       const users = await deleteUser(row.id);
       setCurrentUsers(users);
       setIsOpen(false);
+      clearAllFilters();
     }
   };
   return (

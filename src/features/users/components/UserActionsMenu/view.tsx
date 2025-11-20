@@ -1,6 +1,6 @@
 "use client";
 
-import { DropdownWrapper } from "@/src/components/DropdownWrapper/view";
+import { DropdownWrapper } from "@/src/components/DropdownWrapper";
 import { UserActionsMenuProps } from "./types";
 import { useState } from "react";
 import { EditUserModal } from "../modals/components/EditUserModal";
@@ -13,6 +13,7 @@ export const UserActionsMenu = ({
   selectedRow,
   setSelectedRow,
   setCurrentUsers,
+  clearAllFilters,
 }: UserActionsMenuProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -55,6 +56,7 @@ export const UserActionsMenu = ({
           row={selectedRow}
           setSelectedRow={setSelectedRow}
           setCurrentUsers={setCurrentUsers}
+          clearAllFilters={clearAllFilters}
         />
       )}
       {deleteModalOpen && (
@@ -64,6 +66,7 @@ export const UserActionsMenu = ({
           row={selectedRow}
           setSelectedRow={setSelectedRow}
           setCurrentUsers={setCurrentUsers}
+          clearAllFilters={clearAllFilters}
         />
       )}
     </>

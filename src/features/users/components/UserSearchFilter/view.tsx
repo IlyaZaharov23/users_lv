@@ -5,9 +5,9 @@ import { UserCompanySelector } from "./components/UserCompanySelector";
 import { SearchBySelector } from "./components/SearchBySelector";
 import { UserCitySelector } from "./components/UserCitySelector";
 import { getUniqueCompanies } from "../../utils/getUniqueCompanies";
-import { styles } from "./styles";
 import { UserSearchFilterProps } from "./types";
 import { getUniqueCities } from "../../utils/getUniqueCities";
+import { styles } from "./styles";
 
 export const UserSearchFilter = ({
   users,
@@ -21,6 +21,7 @@ export const UserSearchFilter = ({
   handleSearchValueChange,
   clearSelectedCity,
   clearAllFilters,
+  clearSearchField,
 }: UserSearchFilterProps) => {
   const companies = getUniqueCompanies(users);
   const cities = getUniqueCities(users);
@@ -32,6 +33,7 @@ export const UserSearchFilter = ({
           handleChangeFilter={handleChangeFilter}
           searchValue={searchValue}
           handleSearchValueChange={handleSearchValueChange}
+          clearSearchField={clearSearchField}
         />
         <UserCitySelector
           selectedCity={selectedCity}

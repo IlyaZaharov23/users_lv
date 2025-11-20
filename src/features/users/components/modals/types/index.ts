@@ -8,6 +8,7 @@ export type UserModalProps = {
   row: UserType | null;
   setSelectedRow: (row: UserType | null) => void;
   setCurrentUsers: (users: UserType[]) => void;
+  clearAllFilters: () => void;
 };
 
 export type FormValues = z.infer<typeof userSchema>;

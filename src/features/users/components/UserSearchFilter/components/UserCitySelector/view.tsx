@@ -10,8 +10,8 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-import { UserCitySelectorProps } from "./types";
 import { CloseOutlined } from "@mui/icons-material";
+import { UserCitySelectorProps } from "./types";
 import { styles } from "./styles";
 
 export const UserCitySelector = ({

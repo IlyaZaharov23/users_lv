@@ -6,4 +6,5 @@ export type SearchBySelectorProps = {
   handleChangeFilter: (e: SelectChangeEvent<SearchFiltersType>) => void;
   searchValue: string;
   handleSearchValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  clearSearchField: () => void;
 };

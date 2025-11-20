@@ -10,9 +10,9 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { styles } from "./styles";
-import { SearchBySelectorProps } from "./types";
 import { SEARCH_FILTERS } from "src/features/users/constants/searchFilters";
+import { SearchBySelectorProps } from "./types";
+import { styles } from "./styles";
 
 const filterItems = [
   {
@@ -30,6 +30,7 @@ export const SearchBySelector = ({
   handleChangeFilter,
   searchValue,
   handleSearchValueChange,
+  clearSearchField,
 }: SearchBySelectorProps) => {
   return (
     <Box sx={styles.searchWrapper}>
@@ -46,7 +47,7 @@ export const SearchBySelector = ({
           ),
           endAdornment: (
             <InputAdornment position="end" sx={styles.closeIcon}>
-              <ClearOutlined />
+              <ClearOutlined onClick={clearSearchField} />
             </InputAdornment>
           ),
         }}
