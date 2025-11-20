@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { UserCompanySelector } from "./components/UserCompanySelector";
 import { SearchBySelector } from "./components/SearchBySelector";
 import { UserCitySelector } from "./components/UserCitySelector";
@@ -20,6 +20,7 @@ export const UserSearchFilter = ({
   handleChangeCompany,
   handleSearchValueChange,
   clearSelectedCity,
+  clearAllFilters,
 }: UserSearchFilterProps) => {
   const companies = getUniqueCompanies(users);
   const cities = getUniqueCities(users);
@@ -38,6 +39,9 @@ export const UserSearchFilter = ({
           clearSelectedCity={clearSelectedCity}
           cities={cities}
         />
+        <Button variant="contained" onClick={clearAllFilters}>
+          Reset Filters
+        </Button>
       </Box>
       <UserCompanySelector
         companies={companies}

@@ -41,8 +41,12 @@ export const ModalWrapper = ({
       </DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onSave}>{actionBtnTitle}</Button>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={onSave}>
+          {actionBtnTitle}
+        </Button>
       </DialogActions>
     </Dialog>
   );

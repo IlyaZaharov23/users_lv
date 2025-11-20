@@ -22,8 +22,9 @@ export async function getUserById(id: number) {
 
 export async function createUser(data: UserType) {
   const users = await getUsers();
-  users.push(data);
+  users.unshift(data);
   await fspromise.writeFile(filePath, JSON.stringify(users));
+  return users;
 }
 
 export async function editUser(data: UserType) {

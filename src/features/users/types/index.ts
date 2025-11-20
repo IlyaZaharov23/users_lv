@@ -14,11 +14,3 @@ export type UserType = {
   company: UserCompanyType;
   address: UserAddressType;
 };
-
-export type UserModalProps = {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-  row: UserType | null;
-  setSelectedRow: (row: UserType | null) => void;
-  setCurrentUsers: (users: UserType[]) => void;
-};
