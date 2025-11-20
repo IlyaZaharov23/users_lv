@@ -1,16 +1,17 @@
 import { UsersTable } from "src/features/users/components/UsersTable";
-import { UsersUtil } from "../utils/UsersUtil";
+import { getUsers } from "../utils/UsersUtil";
 
-async function getUsers() {
+async function fetchGetUsers() {
   try {
-    const users = await UsersUtil.getUsers();
+    const users = await getUsers();
     return users;
   } catch (error) {
     console.log(error);
+    return [];
   }
 }
 
 export default async function Home() {
-  const users = await getUsers();
+  const users = await fetchGetUsers();
   return <UsersTable users={users} />;
 }

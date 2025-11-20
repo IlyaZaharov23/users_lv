@@ -12,8 +12,13 @@ import { UserRow } from "../UserTableRow";
 import { UserTableHead } from "../UserTableHead";
 import { UserSearchFilter } from "../UserSearchFilter";
 import { useUsersFilter } from "../../hooks/useUsersFilter";
+import { UserActionsMenu } from "../UserActionsMenu/view";
+import { useDropdownActions } from "../../hooks/useDropdownActions";
+import { useState } from "react";
 
 export const UsersTable = ({ users }: { users: UserType[] }) => {
+  const [currentUsers, setCurrentUsers] = useState<UserType[]>(users);
+
   const {
     selectedCity,
     selectedFilter,
@@ -28,10 +33,13 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
     clearAllFilters,
   } = useUsersFilter();
 
+  const { rowMenu, isOpen, openMenu, closeMenu, selectedRow, setSelectedRow } =
+    useDropdownActions();
+
   return (
     <Box>
       <UserSearchFilter
-        users={users}
+        users={currentUsers}
         selectedCity={selectedCity}
         selectedFilter={selectedFilter}
         selectedCompany={selectedCompany}
@@ -45,15 +53,23 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
       <TableContainer>
         <Table aria-label="users table">
           <TableHead>
-            <UserTableHead user={users[0]} />
+            <UserTableHead user={currentUsers[0]} />
           </TableHead>
           <TableBody>
-            {getFilteredUsers(users).map((user) => (
-              <UserRow key={user.id} user={user} />
+            {getFilteredUsers(currentUsers).map((user) => (
+              <UserRow key={user.id} user={user} openMenu={openMenu} />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <UserActionsMenu
+        open={isOpen}
+        anchorEl={rowMenu.anchorEl}
+        handleClose={closeMenu}
+        selectedRow={selectedRow}
+        setSelectedRow={setSelectedRow}
+        setCurrentUsers={setCurrentUsers}
+      />
     </Box>
   );
 };
