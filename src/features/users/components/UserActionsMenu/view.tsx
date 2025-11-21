@@ -14,6 +14,7 @@ export const UserActionsMenu = ({
   setSelectedRow,
   handleDeleteUser,
   handleUpdateUser,
+  showAlert,
 }: UserActionsMenuProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -56,6 +57,7 @@ export const UserActionsMenu = ({
           row={selectedRow}
           setSelectedRow={setSelectedRow}
           handleUpdateUser={handleUpdateUser}
+          showAlert={showAlert}
         />
       )}
       {deleteModalOpen && (
@@ -65,6 +67,7 @@ export const UserActionsMenu = ({
           row={selectedRow}
           setSelectedRow={setSelectedRow}
           handleDeleteUser={handleDeleteUser}
+          showAlert={showAlert}
         />
       )}
     </>

@@ -6,7 +6,7 @@ import { TextField as Input } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "src/features/users/schemas/userSchema";
-import { editUser } from "src/utils/UsersUtil";
+import { editUser, isEmailExists } from "src/utils/UsersUtil";
 import { FormValues } from "../../types";
 import { UserModalProps } from "../../types";
 
@@ -16,12 +16,14 @@ export const EditUserModal = ({
   row,
   setSelectedRow,
   handleUpdateUser,
+  showAlert,
 }: UserModalProps) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
   } = useForm<FormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -55,10 +57,31 @@ export const EditUserModal = ({
   };
 
   const handleSave = handleSubmit(async (data) => {
-    if (row) {
-      handleUpdateUser?.({ id: row.id, ...data });
-      await editUser({ ...data, id: row.id });
-      setIsOpen(false);
+    try {
+      if (!row) return;
+      const isExists = await isEmailExists(data.email, row.id);
+      if (isExists) {
+        setError("email", {
+          type: "manual",
+          message: "Email already exists",
+        });
+        return;
+      }
+      const res = await editUser({ id: row.id, ...data });
+      if (res) {
+        handleUpdateUser?.({ id: row.id, ...data });
+        handleCloseModal();
+        showAlert({
+          message: "User updated successfully",
+          severity: "success",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      showAlert({
+        message: "Something went wrong",
+        severity: "error",
+      });
     }
   });
 

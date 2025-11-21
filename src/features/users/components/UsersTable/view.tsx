@@ -20,6 +20,8 @@ import { UsersEmptyState } from "../UsersEmptyState";
 import { useUserActions } from "../../hooks/useUsersActions";
 import { CreateUserModal } from "../modals/components/CreateUserModal";
 import { UsersSkeleton } from "../UsersSkeleton";
+import { getLastUserId } from "../../utils/getLastUserId";
+import { useActionsAlert } from "../../hooks/useActionsAlert";
 
 export const UsersTable = ({ users }: { users: UserType[] }) => {
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
@@ -58,11 +60,14 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
     currentUsers,
   } = useUserActions(users, clearAllFilters);
 
+  const { showAlert, AlertComponent } = useActionsAlert();
+
   const handleOpenModal = () => {
     setCreateModalOpen(true);
   };
 
   const filteredUsers = getFilteredUsers(currentUsers);
+  const lastUserId = getLastUserId(currentUsers);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -110,15 +115,18 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
         setSelectedRow={setSelectedRow}
         handleUpdateUser={handleUpdateUser}
         handleDeleteUser={handleDeleteUser}
+        showAlert={showAlert}
       />
       {createModalOpen && (
         <CreateUserModal
-          lastUserId={currentUsers[currentUsers.length - 1].id}
+          lastUserId={lastUserId}
           isOpen={createModalOpen}
           setIsOpen={setCreateModalOpen}
           handleAddUser={handleAddUser}
+          showAlert={showAlert}
         />
       )}
+      {AlertComponent}
     </Box>
   );
 };

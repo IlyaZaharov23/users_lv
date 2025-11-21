@@ -9,10 +9,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 import { SEARCH_FILTERS } from "src/features/users/constants/searchFilters";
 import { SearchBySelectorProps } from "./types";
 import { styles } from "./styles";
+import { styles as parentStyles } from "../../styles";
 
 const filterItems = [
   {
@@ -33,44 +35,47 @@ export const SearchBySelector = ({
   clearSearchField,
 }: SearchBySelectorProps) => {
   return (
-    <Box sx={styles.searchWrapper}>
-      <Input
-        id="search-by-selector-input"
-        placeholder={`Enter ${selectedFilter}`}
-        value={searchValue}
-        onChange={handleSearchValueChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchOutlined />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end" sx={styles.closeIcon}>
-              <ClearOutlined onClick={clearSearchField} />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Box sx={styles.selectWrapper}>
-        <FormControl fullWidth>
-          <InputLabel id={`${selectedFilter}-label`}>
-            {selectedFilter}
-          </InputLabel>
-          <Select
-            onChange={handleChangeFilter}
-            label={selectedFilter}
-            value={selectedFilter}
-            labelId={`${selectedFilter}-select-label`}
-            id={`${selectedFilter}-select`}
-          >
-            {filterItems.map((item) => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+    <Box sx={parentStyles.filterBlockWrapper}>
+      <Typography variant="overline">Search</Typography>
+      <Box sx={styles.searchWrapper}>
+        <Input
+          id="search-by-selector-input"
+          placeholder={`Enter ${selectedFilter}`}
+          value={searchValue}
+          onChange={handleSearchValueChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlined />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end" sx={styles.closeIcon}>
+                <ClearOutlined onClick={clearSearchField} />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box sx={styles.selectWrapper}>
+          <FormControl fullWidth>
+            <InputLabel id={`${selectedFilter}-label`}>
+              {selectedFilter}
+            </InputLabel>
+            <Select
+              onChange={handleChangeFilter}
+              label={selectedFilter}
+              value={selectedFilter}
+              labelId={`${selectedFilter}-select-label`}
+              id={`${selectedFilter}-select`}
+            >
+              {filterItems.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
     </Box>
   );

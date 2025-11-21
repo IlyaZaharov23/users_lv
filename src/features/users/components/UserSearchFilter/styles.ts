@@ -12,4 +12,12 @@ export const styles = {
     justifyContent: "center",
     gap: "1rem",
   },
+  button: {
+    marginTop: "1.875rem",
+  },
+  filterBlockWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.5rem",
+  },
 };
