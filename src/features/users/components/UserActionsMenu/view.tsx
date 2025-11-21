@@ -12,8 +12,8 @@ export const UserActionsMenu = ({
   handleClose,
   selectedRow,
   setSelectedRow,
-  setCurrentUsers,
-  clearAllFilters,
+  handleDeleteUser,
+  handleUpdateUser,
 }: UserActionsMenuProps) => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -55,8 +55,7 @@ export const UserActionsMenu = ({
           setIsOpen={setEditModalOpen}
           row={selectedRow}
           setSelectedRow={setSelectedRow}
-          setCurrentUsers={setCurrentUsers}
-          clearAllFilters={clearAllFilters}
+          handleUpdateUser={handleUpdateUser}
         />
       )}
       {deleteModalOpen && (
@@ -65,8 +64,7 @@ export const UserActionsMenu = ({
           setIsOpen={setDeleteModalOpen}
           row={selectedRow}
           setSelectedRow={setSelectedRow}
-          setCurrentUsers={setCurrentUsers}
-          clearAllFilters={clearAllFilters}
+          handleDeleteUser={handleDeleteUser}
         />
       )}
     </>

@@ -10,8 +10,7 @@ export const DeleteUserModal = ({
   setIsOpen,
   row,
   setSelectedRow,
-  setCurrentUsers,
-  clearAllFilters,
+  handleDeleteUser,
 }: UserModalProps) => {
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -20,10 +19,9 @@ export const DeleteUserModal = ({
 
   const handleSave = async () => {
     if (row) {
-      const users = await deleteUser(row.id);
-      setCurrentUsers(users);
+      handleDeleteUser?.(row.id);
+      await deleteUser(row.id);
       setIsOpen(false);
-      clearAllFilters();
     }
   };
   return (

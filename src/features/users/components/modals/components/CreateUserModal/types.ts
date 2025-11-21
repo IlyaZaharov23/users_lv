@@ -1,3 +1,4 @@
+import { UserType } from "src/features/users/types";
 import { UserModalProps } from "../../types";
 
 export type CreateUserModalProps = Omit<
@@ -5,4 +6,5 @@ export type CreateUserModalProps = Omit<
   "row" | "setSelectedRow" | "clearAllFilters"
 > & {
   lastUserId: number;
+  handleAddUser: (user: UserType) => void;
 };

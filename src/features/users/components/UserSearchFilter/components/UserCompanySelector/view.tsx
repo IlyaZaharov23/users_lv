@@ -6,16 +6,16 @@ import { styles } from "./styles";
 
 export const UserCompanySelector = ({
   companies,
-  selectedCompany,
-  handleChangeCompany,
+  selectedCompanies,
+  handleSelectCompany,
 }: UserCompanySelectorProps) => {
   return (
     <Box sx={styles.selectorWrapper}>
       {companies.map((company) => (
         <Box key={company} sx={styles.companySelectorWrapper}>
           <Checkbox
-            checked={selectedCompany === company}
-            onChange={handleChangeCompany(company)}
+            checked={selectedCompanies.includes(company)}
+            onChange={handleSelectCompany(company)}
           />
           <Typography>{company}</Typography>
         </Box>

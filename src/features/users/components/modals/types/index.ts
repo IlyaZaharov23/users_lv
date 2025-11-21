@@ -7,8 +7,8 @@ export type UserModalProps = {
   setIsOpen: (value: boolean) => void;
   row: UserType | null;
   setSelectedRow: (row: UserType | null) => void;
-  setCurrentUsers: (users: UserType[]) => void;
-  clearAllFilters: () => void;
+  handleDeleteUser?: (userId: number) => void;
+  handleUpdateUser?: (user: UserType) => void;
 };
 
 export type FormValues = z.infer<typeof userSchema>;

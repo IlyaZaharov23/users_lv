@@ -14,16 +14,17 @@ export const UserSearchFilter = ({
   selectedCity,
   selectedFilter,
   searchValue,
-  selectedCompany,
+  selectedCompanies,
   handleChangeCity,
   handleChangeFilter,
-  handleChangeCompany,
+  handleSelectCompany,
   handleSearchValueChange,
   clearSelectedCity,
   clearAllFilters,
   clearSearchField,
+  companies,
 }: UserSearchFilterProps) => {
-  const companies = getUniqueCompanies(users);
+  // const companies = getUniqueCompanies(users);
   const cities = getUniqueCities(users);
   return (
     <Box sx={styles.searchFilterWrapper}>
@@ -47,8 +48,8 @@ export const UserSearchFilter = ({
       </Box>
       <UserCompanySelector
         companies={companies}
-        selectedCompany={selectedCompany}
-        handleChangeCompany={handleChangeCompany}
+        selectedCompanies={selectedCompanies}
+        handleSelectCompany={handleSelectCompany}
       />
     </Box>
   );

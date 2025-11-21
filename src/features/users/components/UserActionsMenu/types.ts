@@ -6,6 +6,6 @@ export type UserActionsMenuProps = {
   handleClose: () => void;
   selectedRow: UserType | null;
   setSelectedRow: (row: UserType | null) => void;
-  setCurrentUsers: (users: UserType[]) => void;
-  clearAllFilters: () => void;
+  handleUpdateUser: (user: UserType) => void;
+  handleDeleteUser: (userId: number) => void;
 };
