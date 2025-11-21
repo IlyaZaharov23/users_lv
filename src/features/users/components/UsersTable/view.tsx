@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   TableContainer,
   Table,
@@ -66,8 +66,11 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
     setCreateModalOpen(true);
   };
 
-  const filteredUsers = getFilteredUsers(currentUsers);
-  const lastUserId = getLastUserId(currentUsers);
+  const filteredUsers = useMemo(
+    () => getFilteredUsers(currentUsers),
+    [currentUsers, getFilteredUsers]
+  );
+  const lastUserId = useMemo(() => getLastUserId(currentUsers), [currentUsers]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">

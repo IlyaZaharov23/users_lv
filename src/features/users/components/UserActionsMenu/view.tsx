@@ -1,8 +1,8 @@
 "use client";
 
-import { DropdownWrapper } from "@/src/components/DropdownWrapper";
+import { useState, useMemo, useCallback } from "react";
+import { DropdownWrapper } from "src/components/DropdownWrapper";
 import { UserActionsMenuProps } from "./types";
-import { useState } from "react";
 import { EditUserModal } from "../modals/components/EditUserModal";
 import { DeleteUserModal } from "../modals/components/DeleteUserModal";
 
@@ -19,26 +19,31 @@ export const UserActionsMenu = ({
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
-  const editUser = () => {
+  const editUser = useCallback(() => {
     setEditModalOpen(true);
     handleClose();
-  };
-  const deleteUser = () => {
+  }, [handleClose]);
+
+  const deleteUser = useCallback(() => {
     setDeleteModalOpen(true);
     handleClose();
-  };
-  const dropdownItems = [
-    {
-      value: "Edit",
-      title: "Edit",
-      onClick: editUser,
-    },
-    {
-      value: "Delete",
-      title: "Delete",
-      onClick: deleteUser,
-    },
-  ];
+  }, [handleClose]);
+
+  const dropdownItems = useMemo(
+    () => [
+      {
+        value: "Edit",
+        title: "Edit",
+        onClick: editUser,
+      },
+      {
+        value: "Delete",
+        title: "Delete",
+        onClick: deleteUser,
+      },
+    ],
+    [editUser, deleteUser]
+  );
 
   return (
     <>

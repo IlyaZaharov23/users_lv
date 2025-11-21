@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { TextField as Input } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,13 +59,17 @@ export const CreateUserModal = ({
     }
   });
 
-  const fields = [
-    { label: "Name", name: "name", error: errors.name },
-    { label: "Email", name: "email", error: errors.email },
-    { label: "Phone", name: "phone", error: errors.phone },
-    { label: "Company", name: "company.name", error: errors.company?.name },
-    { label: "City", name: "address.city", error: errors.address?.city },
-  ] as const;
+  const fields = useMemo(
+    () =>
+      [
+        { label: "Name", name: "name", error: errors.name },
+        { label: "Email", name: "email", error: errors.email },
+        { label: "Phone", name: "phone", error: errors.phone },
+        { label: "Company", name: "company.name", error: errors.company?.name },
+        { label: "City", name: "address.city", error: errors.address?.city },
+      ] as const,
+    [errors]
+  );
 
   return (
     <ModalWrapper
