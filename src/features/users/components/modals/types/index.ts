@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { userSchema } from "../../../schemas/userSchema";
-import { UserType } from "../../../types";
+import { AlertOptions, UserType } from "../../../types";
 
 export type UserModalProps = {
   isOpen: boolean;
@@ -9,6 +9,7 @@ export type UserModalProps = {
   setSelectedRow: (row: UserType | null) => void;
   handleDeleteUser?: (userId: number) => void;
   handleUpdateUser?: (user: UserType) => void;
+  showAlert: (option: AlertOptions) => void;
 };
 
 export type FormValues = z.infer<typeof userSchema>;

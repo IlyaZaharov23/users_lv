@@ -2,7 +2,7 @@ import { TextField as Input } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalWrapper } from "src/components/ModalWrapper";
-import { createUser } from "src/utils/UsersUtil";
+import { createUser, isEmailExists } from "src/utils/UsersUtil";
 import { userSchema } from "src/features/users/schemas/userSchema";
 import { FormValues } from "../../types";
 import { CreateUserModalProps } from "./types";
@@ -12,11 +12,13 @@ export const CreateUserModal = ({
   setIsOpen,
   lastUserId,
   handleAddUser,
+  showAlert,
 }: CreateUserModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -32,9 +34,28 @@ export const CreateUserModal = ({
   };
 
   const handleSave = handleSubmit(async (data) => {
-    await createUser({ id: lastUserId + 1, ...data });
-    handleAddUser({ id: lastUserId + 1, ...data });
-    setIsOpen(false);
+    try {
+      const isExists = await isEmailExists(data.email);
+      if (isExists) {
+        setError("email", {
+          type: "manual",
+          message: "Email already exists",
+        });
+        return;
+      }
+      const res = await createUser({ id: lastUserId + 1, ...data });
+      if (res) {
+        handleAddUser({ id: lastUserId + 1, ...data });
+        handleCloseModal();
+        showAlert({
+          message: "User created successfully",
+          severity: "success",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      showAlert({ message: "Something went wrong", severity: "error" });
+    }
   });
 
   const fields = [

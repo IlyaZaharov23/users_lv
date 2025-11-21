@@ -1,3 +1,5 @@
+import { AlertColor } from "@mui/material";
+
 type UserCompanyType = {
   name: string;
 };
@@ -13,4 +15,9 @@ export type UserType = {
   phone: string;
   company: UserCompanyType;
   address: UserAddressType;
+};
+
+export type AlertOptions = {
+  message: string | React.ReactNode;
+  severity?: AlertColor;
 };

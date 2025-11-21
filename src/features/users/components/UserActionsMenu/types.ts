@@ -1,4 +1,4 @@
-import { UserType } from "../../types";
+import { AlertOptions, UserType } from "../../types";
 
 export type UserActionsMenuProps = {
   open: boolean;
@@ -8,4 +8,5 @@ export type UserActionsMenuProps = {
   setSelectedRow: (row: UserType | null) => void;
   handleUpdateUser: (user: UserType) => void;
   handleDeleteUser: (userId: number) => void;
+  showAlert: (option: AlertOptions) => void;
 };

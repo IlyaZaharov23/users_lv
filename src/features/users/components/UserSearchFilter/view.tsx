@@ -4,7 +4,6 @@ import { Box, Button } from "@mui/material";
 import { UserCompanySelector } from "./components/UserCompanySelector";
 import { SearchBySelector } from "./components/SearchBySelector";
 import { UserCitySelector } from "./components/UserCitySelector";
-import { getUniqueCompanies } from "../../utils/getUniqueCompanies";
 import { UserSearchFilterProps } from "./types";
 import { getUniqueCities } from "../../utils/getUniqueCities";
 import { styles } from "./styles";
@@ -24,7 +23,6 @@ export const UserSearchFilter = ({
   clearSearchField,
   companies,
 }: UserSearchFilterProps) => {
-  // const companies = getUniqueCompanies(users);
   const cities = getUniqueCities(users);
   return (
     <Box sx={styles.searchFilterWrapper}>
@@ -42,7 +40,11 @@ export const UserSearchFilter = ({
           clearSelectedCity={clearSelectedCity}
           cities={cities}
         />
-        <Button variant="contained" onClick={clearAllFilters}>
+        <Button
+          variant="contained"
+          sx={styles.button}
+          onClick={clearAllFilters}
+        >
           Reset Filters
         </Button>
       </Box>

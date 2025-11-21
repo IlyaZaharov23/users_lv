@@ -5,4 +5,5 @@ export type ModalWrapperProps = {
   actionBtnTitle: string;
   onClose: () => void;
   onSave: () => void;
+  isDelete?: boolean;
 };
