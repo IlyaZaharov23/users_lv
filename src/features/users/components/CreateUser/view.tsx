@@ -3,10 +3,7 @@ import { Button } from "@mui/material";
 import { CreateUserModal } from "../modals/components/CreateUserModal";
 import { CreateUserProps } from "./types";
 
-export const CreateUser = ({
-  lastUserId,
-  setCurrentUsers,
-}: CreateUserProps) => {
+export const CreateUser = ({ lastUserId, handleAddUser }: CreateUserProps) => {
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -22,7 +19,7 @@ export const CreateUser = ({
           lastUserId={lastUserId}
           isOpen={createModalOpen}
           setIsOpen={setCreateModalOpen}
-          setCurrentUsers={setCurrentUsers}
+          handleAddUser={handleAddUser}
         />
       )}
     </>

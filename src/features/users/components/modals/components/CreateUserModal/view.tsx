@@ -10,8 +10,8 @@ import { CreateUserModalProps } from "./types";
 export const CreateUserModal = ({
   isOpen,
   setIsOpen,
-  setCurrentUsers,
   lastUserId,
+  handleAddUser,
 }: CreateUserModalProps) => {
   const {
     register,
@@ -32,8 +32,8 @@ export const CreateUserModal = ({
   };
 
   const handleSave = handleSubmit(async (data) => {
-    const users = await createUser({ id: lastUserId + 1, ...data });
-    setCurrentUsers(users);
+    await createUser({ id: lastUserId + 1, ...data });
+    handleAddUser({ id: lastUserId + 1, ...data });
     setIsOpen(false);
   });
 

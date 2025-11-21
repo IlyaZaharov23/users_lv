@@ -13,9 +13,7 @@ export const useUsersFilter = () => {
     SEARCH_FILTERS.NAME
   );
   const [searchValue, setSearchValue] = useState<string>("");
-  const [selectedCompany, setSelectedCompany] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
   const debouncedValue = useDebounce(searchValue, 500);
 
   const handleSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,10 +32,12 @@ export const useUsersFilter = () => {
     setSelectedCity(e.target.value);
   };
 
-  const handleChangeCompany =
+  const handleSelectCompany =
     (company: string) =>
     (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-      setSelectedCompany(checked ? company : undefined);
+      setSelectedCompanies((prev) =>
+        checked ? [...prev, company] : prev.filter((c) => c !== company)
+      );
     };
 
   const getFilteredUsers = (users: UserType[]) => {
@@ -45,13 +45,16 @@ export const useUsersFilter = () => {
       const matchesCity = selectedCity
         ? user.address?.city === selectedCity
         : true;
-      const matchesCompany = selectedCompany
-        ? user.company?.name === selectedCompany
-        : true;
+
+      const matchesCompany =
+        selectedCompanies.length > 0
+          ? selectedCompanies.includes(user.company?.name ?? "")
+          : true;
 
       let matchesSearch = true;
       if (debouncedValue) {
         const value = debouncedValue.toLowerCase();
+
         if (selectedFilter === SEARCH_FILTERS.NAME) {
           matchesSearch = user.name.toLowerCase().includes(value);
         } else if (selectedFilter === SEARCH_FILTERS.EMAIL) {
@@ -69,7 +72,7 @@ export const useUsersFilter = () => {
 
   const clearAllFilters = () => {
     setSelectedCity(undefined);
-    setSelectedCompany(undefined);
+    setSelectedCompanies([]);
     setSelectedFilter(SEARCH_FILTERS.NAME);
     setSearchValue("");
   };
@@ -77,11 +80,11 @@ export const useUsersFilter = () => {
   return {
     selectedCity,
     selectedFilter,
-    selectedCompany,
+    selectedCompanies,
     searchValue,
     handleChangeCity,
     handleChangeFilter,
-    handleChangeCompany,
+    handleSelectCompany,
     handleSearchValueChange,
     getFilteredUsers,
     clearSelectedCity,

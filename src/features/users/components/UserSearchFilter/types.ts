@@ -7,5 +7,5 @@ export type UserSearchFilterProps = {
   users: UserType[];
   clearAllFilters: () => void;
 } & Omit<UserCitySelectorProps, "cities"> &
-  Omit<UserCompanySelectorProps, "companies"> &
+  UserCompanySelectorProps &
   SearchBySelectorProps;

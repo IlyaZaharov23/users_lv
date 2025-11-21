@@ -15,8 +15,7 @@ export const EditUserModal = ({
   setIsOpen,
   row,
   setSelectedRow,
-  setCurrentUsers,
-  clearAllFilters,
+  handleUpdateUser,
 }: UserModalProps) => {
   const {
     register,
@@ -57,10 +56,9 @@ export const EditUserModal = ({
 
   const handleSave = handleSubmit(async (data) => {
     if (row) {
-      const users = await editUser({ ...data, id: row.id });
-      setCurrentUsers(users);
+      handleUpdateUser?.({ id: row.id, ...data });
+      await editUser({ ...data, id: row.id });
       setIsOpen(false);
-      clearAllFilters();
     }
   });
 

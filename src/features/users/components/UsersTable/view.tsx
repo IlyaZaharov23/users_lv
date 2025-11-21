@@ -16,18 +16,20 @@ import { useUsersFilter } from "../../hooks/useUsersFilter";
 import { UserActionsMenu } from "../UserActionsMenu";
 import { useDropdownActions } from "../../hooks/useDropdownActions";
 import { CreateUser } from "../CreateUser";
+import { getUniqueCompanies } from "../../utils/getUniqueCompanies";
 
 export const UsersTable = ({ users }: { users: UserType[] }) => {
   const [currentUsers, setCurrentUsers] = useState<UserType[]>(users);
+  const [allCompanies, setAllCompanies] = useState(getUniqueCompanies(users));
 
   const {
     selectedCity,
     selectedFilter,
-    selectedCompany,
+    selectedCompanies,
     searchValue,
     handleChangeCity,
     handleChangeFilter,
-    handleChangeCompany,
+    handleSelectCompany,
     handleSearchValueChange,
     getFilteredUsers,
     clearSelectedCity,
@@ -38,25 +40,59 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
   const { rowMenu, isOpen, openMenu, closeMenu, selectedRow, setSelectedRow } =
     useDropdownActions();
 
+  const ensureCompanyExists = (companyName: string) => {
+    setAllCompanies((prev) => {
+      if (prev.includes(companyName)) return prev;
+      return [...prev, companyName];
+    });
+  };
+
+  const handleAddUser = (newUser: UserType) => {
+    setCurrentUsers((prev) => [...prev, newUser]);
+    ensureCompanyExists(newUser.company.name);
+  };
+
+  const handleUpdateUser = (updatedUser: UserType) => {
+    setCurrentUsers((prev) =>
+      prev.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    );
+    ensureCompanyExists(updatedUser.company.name);
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    setCurrentUsers((prev) => prev.filter((user) => user.id !== userId));
+  };
+
+  const handleResetFilters = () => {
+    clearAllFilters();
+
+    const unique = Array.from(
+      new Set(currentUsers.map((user) => user.company.name))
+    );
+
+    setAllCompanies(unique);
+  };
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <UserSearchFilter
         users={currentUsers}
         selectedCity={selectedCity}
         selectedFilter={selectedFilter}
-        selectedCompany={selectedCompany}
+        selectedCompanies={selectedCompanies}
         searchValue={searchValue}
         handleChangeCity={handleChangeCity}
         handleChangeFilter={handleChangeFilter}
-        handleChangeCompany={handleChangeCompany}
+        handleSelectCompany={handleSelectCompany}
         handleSearchValueChange={handleSearchValueChange}
         clearSelectedCity={clearSelectedCity}
         clearSearchField={clearSearchField}
-        clearAllFilters={clearAllFilters}
+        clearAllFilters={handleResetFilters}
+        companies={allCompanies}
       />
       <CreateUser
         lastUserId={currentUsers[currentUsers.length - 1].id}
-        setCurrentUsers={setCurrentUsers}
+        handleAddUser={handleAddUser}
       />
       <TableContainer>
         <Table aria-label="users table">
@@ -76,8 +112,8 @@ export const UsersTable = ({ users }: { users: UserType[] }) => {
         handleClose={closeMenu}
         selectedRow={selectedRow}
         setSelectedRow={setSelectedRow}
-        setCurrentUsers={setCurrentUsers}
-        clearAllFilters={clearAllFilters}
+        handleUpdateUser={handleUpdateUser}
+        handleDeleteUser={handleDeleteUser}
       />
     </Box>
   );
