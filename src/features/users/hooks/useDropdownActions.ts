@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { UserType } from "../types";
 
 interface RowMenuState {
@@ -13,13 +13,13 @@ export const useDropdownActions = () => {
   });
   const [selectedRow, setSelectedRow] = useState<UserType | null>(null);
 
-  const openMenu = (event: React.MouseEvent<HTMLElement>, row: UserType) => {
-    setRowMenu({
-      anchorEl: event.currentTarget,
-      rowId: row.id,
-    });
-    setSelectedRow(row);
-  };
+  const openMenu = useCallback(
+    (event: React.MouseEvent<HTMLElement>, row: UserType) => {
+      setRowMenu({ anchorEl: event.currentTarget, rowId: row.id });
+      setSelectedRow(row);
+    },
+    []
+  );
 
   const closeMenu = () => {
     setRowMenu({

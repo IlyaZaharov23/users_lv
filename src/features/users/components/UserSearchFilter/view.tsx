@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import { UserCompanySelector } from "./components/UserCompanySelector";
 import { SearchBySelector } from "./components/SearchBySelector";
@@ -23,7 +24,7 @@ export const UserSearchFilter = ({
   clearSearchField,
   companies,
 }: UserSearchFilterProps) => {
-  const cities = getUniqueCities(users);
+  const cities = useMemo(() => getUniqueCities(users), [users]);
   return (
     <Box sx={styles.searchFilterWrapper}>
       <Box sx={styles.topSelectorsWrapper}>

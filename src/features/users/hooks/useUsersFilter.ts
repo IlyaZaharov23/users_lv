@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import { SEARCH_FILTERS } from "../constants/searchFilters";
 import { SearchFiltersType } from "../components/UsersTable/types";
@@ -32,39 +32,44 @@ export const useUsersFilter = () => {
     setSelectedCity(e.target.value);
   };
 
-  const handleSelectCompany =
+  const handleSelectCompany = useCallback(
     (company: string) =>
-    (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-      setSelectedCompanies((prev) =>
-        checked ? [...prev, company] : prev.filter((c) => c !== company)
-      );
-    };
+      (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+        setSelectedCompanies((prev) =>
+          checked ? [...prev, company] : prev.filter((item) => item !== company)
+        );
+      },
+    []
+  );
 
-  const getFilteredUsers = (users: UserType[]) => {
-    return users.filter((user) => {
-      const matchesCity = selectedCity
-        ? user.address?.city === selectedCity
-        : true;
-
-      const matchesCompany =
-        selectedCompanies.length > 0
-          ? selectedCompanies.includes(user.company?.name ?? "")
+  const getFilteredUsers = useCallback(
+    (users: UserType[]) => {
+      return users.filter((user) => {
+        const matchesCity = selectedCity
+          ? user.address?.city === selectedCity
           : true;
 
-      let matchesSearch = true;
-      if (debouncedValue) {
-        const value = debouncedValue.toLowerCase();
+        const matchesCompany =
+          selectedCompanies.length > 0
+            ? selectedCompanies.includes(user.company?.name ?? "")
+            : true;
 
-        if (selectedFilter === SEARCH_FILTERS.NAME) {
-          matchesSearch = user.name.toLowerCase().includes(value);
-        } else if (selectedFilter === SEARCH_FILTERS.EMAIL) {
-          matchesSearch = user.email.toLowerCase().includes(value);
+        let matchesSearch = true;
+        if (debouncedValue) {
+          const value = debouncedValue.toLowerCase();
+
+          if (selectedFilter === SEARCH_FILTERS.NAME) {
+            matchesSearch = user.name.toLowerCase().includes(value);
+          } else if (selectedFilter === SEARCH_FILTERS.EMAIL) {
+            matchesSearch = user.email.toLowerCase().includes(value);
+          }
         }
-      }
 
-      return matchesCity && matchesCompany && matchesSearch;
-    });
-  };
+        return matchesCity && matchesCompany && matchesSearch;
+      });
+    },
+    [debouncedValue, selectedCity, selectedCompanies, selectedFilter]
+  );
 
   const clearSelectedCity = () => {
     setSelectedCity(undefined);

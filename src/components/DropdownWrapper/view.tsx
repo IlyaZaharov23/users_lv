@@ -10,7 +10,15 @@ export const DropdownWrapper = ({
   anchorEl,
 }: DropdownWrapperProps) => {
   return (
-    <Menu open={open} onClose={onClose} anchorEl={anchorEl}>
+    <Menu
+      open={open}
+      onClose={onClose}
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "center",
+        horizontal: "right",
+      }}
+    >
       {items.map((item) => (
         <MenuItem
           key={item.value}

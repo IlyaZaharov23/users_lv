@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
 import { ModalWrapper } from "src/components/ModalWrapper";
-import { useEffect } from "react";
 import { TextField as Input } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -85,13 +85,17 @@ export const EditUserModal = ({
     }
   });
 
-  const fields = [
-    { label: "Name", name: "name", error: errors.name },
-    { label: "Email", name: "email", error: errors.email },
-    { label: "Phone", name: "phone", error: errors.phone },
-    { label: "Company", name: "company.name", error: errors.company?.name },
-    { label: "City", name: "address.city", error: errors.address?.city },
-  ] as const;
+  const fields = useMemo(
+    () =>
+      [
+        { label: "Name", name: "name", error: errors.name },
+        { label: "Email", name: "email", error: errors.email },
+        { label: "Phone", name: "phone", error: errors.phone },
+        { label: "Company", name: "company.name", error: errors.company?.name },
+        { label: "City", name: "address.city", error: errors.address?.city },
+      ] as const,
+    [errors]
+  );
 
   return (
     <ModalWrapper
